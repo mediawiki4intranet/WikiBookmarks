@@ -62,7 +62,7 @@ class SpecialWikiBookmarks extends SpecialPage
         {
             $s0 = $article->getSection($content, 0);
             $split = false;
-            $datef = '%d %B, %H:%M:%S:';
+            $datef = false;
             if (preg_match('/<!--\s*bookmarkheadings:?\s*(.+\S)\s*-->/is', $s0, $m))
             {
                 $re = "/\"((?:[^\"\\\\]+|\\\\\\\\|\\\\\")+)\"/is";
@@ -72,7 +72,7 @@ class SpecialWikiBookmarks extends SpecialPage
             if (preg_match('/<!--\s*bookmarkdate:?\s*(.+\S)\s*-->/is', $s0, $m))
                 $datef = trim($m[1]);
             if (!$split || !count($split))
-                $split = array('%B %Y');
+                $split = array('%Y', '%B %Y');
             if (!$datef)
                 $datef = '%d %B, %H:%M:%S:';
             $split = array_map('strftime', $split);
