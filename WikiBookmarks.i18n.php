@@ -64,7 +64,7 @@ function wb_make_link()
  }
  document.getElementById("wb_link_div").innerHTML =
   "Drag-and-drop the following link onto your browser\'s panel:<br />[[ <a href=\"javascript:void("+
-  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(pg)+
+  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(encodeURI(pg))+
   "&url=\'+encodeURI(location)+\'&urltitle=\'+encodeURI(document.title),\'WikiBookmarks\',\'width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no\')"+
   ")\">WikiBookmark it</a> ]]";
 }
@@ -124,7 +124,7 @@ function wb_make_link()
  }
  document.getElementById("wb_link_div").innerHTML =
   "Перетащите следующую ссылку на панель своего браузера:<br />[[ <a href=\"javascript:void("+
-  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(pg)+
+  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(encodeURI(pg))+
   "&url=\'+encodeURI(location)+\'&urltitle=\'+encodeURI(document.title),\'WikiBookmarks\',\'width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no\')"+
   ")\">В ВикиЗакладки</a> ]]";
 }
