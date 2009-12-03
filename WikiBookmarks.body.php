@@ -61,10 +61,21 @@ class SpecialWikiBookmarks extends SpecialPage
         else if (strpos($content, $url) === false)
         {
             $s0 = $article->getSection($content, 0);
-            $split = array('Y-m-d');
-            if (preg_match('/<!--\s*bookmarkheadings\W*\s*(.+\S)\s*-->/is', $s0, $m))
-                $split = preg_split('/\s+/', $m[1]);
-            $split = array_map('date', $split);
+            $split = false;
+            $datef = '%d %B, %H:%M:%S:';
+            if (preg_match('/<!--\s*bookmarkheadings:?\s*(.+\S)\s*-->/is', $s0, $m))
+            {
+                $re = "/\"((?:[^\"\\\\]+|\\\\\\\\|\\\\\")+)\"/is";
+                preg_match_all($re, $m[1], $split, PREG_PATTERN_ORDER);
+                $split = $split[1];
+            }
+            if (preg_match('/<!--\s*bookmarkdate:?\s*(.+\S)\s*-->/is', $s0, $m))
+                $datef = trim($m[1]);
+            if (!$split || !count($split))
+                $split = array('%B %Y');
+            if (!$datef)
+                $datef = '%d %B, %H:%M:%S:';
+            $split = array_map('strftime', $split);
             /* парсим текст статьи */
             $section1 = $article->getSection($content, 1);
             $prefix = '';
@@ -91,7 +102,7 @@ class SpecialWikiBookmarks extends SpecialPage
                 $section1 = "\n" . $section1;
             }
             /* записываем закладку в текст */
-            $section1 = trim($prefix) . "\n\n* " . date('H:i:s') . ": " . $bookmark . "\n" . $section1;
+            $section1 = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n" . $section1;
             if ($content)
                 $content = $wgParser->replaceSection($content, 1, $section1);
             else
