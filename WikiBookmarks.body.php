@@ -41,7 +41,7 @@ class SpecialWikiBookmarks extends SpecialPage
         {
             $wgOut->setPageTitle(wfMsg('bookmarks-no-params'));
             $wgOut->setHTMLTitle(wfMsg('bookmarks-no-params'));
-            $wgOut->addHTML(wfMsgExt('bookmarks-no-params-text', 'parse'));
+            $wgOut->addHTML(wfMsgExt('bookmarks-no-params-text', 'parse', $wgUser ? $wgUser->getUserPage()->getPrefixedText() : ''));
             $wgOut->returnToMain();
             return;
         }
@@ -114,6 +114,7 @@ class SpecialWikiBookmarks extends SpecialPage
         else
             $msg = wfMsgExt('bookmarks-bookmark-already-present', 'parse', $bookmark, $title->getPrefixedText());
         /* выводим мини-страничку */
+        header('Content-Type: text/html; charset=utf-8');
         print
             '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN"><html><head>' .
             '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' .

@@ -51,7 +51,7 @@ of Wiki Article which you want to maintain as your bookmark list, click
 \'\'Make bookmarklet\'\' and drag-and-drop displayed link onto your browser\'s
 panel or add it into browser bookmarks.
 
-<html><input type="text" id="wb_page" size="20" />&nbsp;<input type="button" value="Make bookmarklet" onclick="wb_make_link()" />
+<html><input type="text" id="wb_page" size="20" value="$1/Bookmarks" />&nbsp;<input type="button" value="Make bookmarklet" onclick="wb_make_link()" />
 <div id="wb_link_div" style="font-weight: bold"></div>
 <script language="JavaScript">
 function wb_make_link()
@@ -111,7 +111,7 @@ $messages['ru'] = array(
 \'\'Вывести ссылку\'\' и перетащите появившуюся ссылку себе на панель закладок
 или добавьте в закладки.
 
-<html><input type="text" id="wb_page" size="20" />&nbsp;<input type="button" value="Вывести ссылку" onclick="wb_make_link()" />
+<html><input type="text" id="wb_page" size="20" value="$1/Закладки" />&nbsp;<input type="button" value="Вывести ссылку" onclick="wb_make_link()" />
 <div id="wb_link_div" style="font-weight: bold"></div>
 <script language="JavaScript">
 function wb_make_link()
