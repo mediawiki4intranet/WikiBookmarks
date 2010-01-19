@@ -35,41 +35,7 @@ $messages['en'] = array(
     'bookmarks-edit-summary' => 'Added a bookmark: $2',
 
     /* Help title */
-    'bookmarks-no-params' => 'WikiBookmarks: Usage',
-
-    /* Help text */
-    'bookmarks-no-params-text' =>
-'\'\'\'WikiBookmarks\'\'\' is a \'\'\'MediaWiki\'\'\' extensions helping
-you to manage shared bookmark lists inside a Wiki article.
-
-It seems that now you simply opened [[Special:Bookmarks]].
-
-Actually \'\'\'WikiBookmarks\'\'\' are used in the form of a tiny bookmarklet
-([http://en.wikipedia.org/wiki/Bookmarklet what is a bookmarklet?]).
-To install such a bookmarklet in your browser, you need to enter the title
-of Wiki Article which you want to maintain as your bookmark list, click
-\'\'Make bookmarklet\'\' and drag-and-drop displayed link onto your browser\'s
-panel or add it into browser bookmarks.
-
-<html><input type="text" id="wb_page" size="20" value="$1/Bookmarks" />&nbsp;<input type="button" value="Make bookmarklet" onclick="wb_make_link()" />
-<div id="wb_link_div" style="font-weight: bold"></div>
-<script language="JavaScript">
-function wb_make_link()
-{
- pg = document.getElementById("wb_page").value;
- if (pg == "")
- {
-  alert("Page title must not be empty!");
-  return;
- }
- document.getElementById("wb_link_div").innerHTML =
-  "Drag-and-drop the following link onto your browser\'s panel:<br />[[ <a href=\"javascript:void("+
-  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(encodeURI(pg))+
-  "&url=\'+encodeURI(location)+\'&urltitle=\'+encodeURI(document.title),\'WikiBookmarks\',\'width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no\')"+
-  ")\">WikiBookmark it</a> ]]";
-}
-</script>
-</html>',
+    'bookmarks-help-page' => 'WikiBookmarks/Usage',
 
     /* Close window */
     'bookmarks-close-window' => 'Close window',
@@ -95,41 +61,7 @@ $messages['ru'] = array(
     'bookmarks-edit-summary' => 'Добавлена закладка $2',
 
     /* Заголовок справки */
-    'bookmarks-no-params' => 'ВикиЗакладки: справка',
-
-    /* Справка */
-    'bookmarks-no-params-text' =>
-'\'\'\'ВикиЗакладки\'\'\' — расширение \'\'\'MediaWiki\'\'\', позволяющее управлять публичными
-списками закладок с помощью Wiki-статьи.
-
-По всей видимости, Вы просто перешли на страницу [[Служебная:Bookmarks]].
-
-А вообще-то \'\'\'ВикиЗакладки\'\'\' используются в виде небольшого букмарклета
-([http://ru.wikipedia.org/wiki/Букмарклет что такое букмарклет?]).
-Чтобы установить такой букмарклет себе в браузер, введите название страницы,
-на которой Вы хотели бы поддерживать список своих закладок, нажмите кнопку
-\'\'Вывести ссылку\'\' и перетащите появившуюся ссылку себе на панель закладок
-или добавьте в закладки.
-
-<html><input type="text" id="wb_page" size="20" value="$1/Закладки" />&nbsp;<input type="button" value="Вывести ссылку" onclick="wb_make_link()" />
-<div id="wb_link_div" style="font-weight: bold"></div>
-<script language="JavaScript">
-function wb_make_link()
-{
- pg = document.getElementById("wb_page").value;
- if (pg == "")
- {
-  alert("Имя страницы не должно быть пустым!");
-  return;
- }
- document.getElementById("wb_link_div").innerHTML =
-  "Перетащите следующую ссылку на панель своего браузера:<br />[[ <a href=\"javascript:void("+
-  "window.open(\'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php/Special:Bookmarks?page="+encodeURI(encodeURI(pg))+
-  "&url=\'+encodeURI(location)+\'&urltitle=\'+encodeURI(document.title),\'WikiBookmarks\',\'width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no\')"+
-  ")\">В ВикиЗакладки</a> ]]";
-}
-</script>
-</html>',
+    'bookmarks-help-page' => 'ВикиЗакладки/Справка',
 
     /* Закрыть окно */
     'bookmarks-close-window' => 'Закрыть окно',

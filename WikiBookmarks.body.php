@@ -35,20 +35,54 @@ class SpecialWikiBookmarks extends SpecialPage
     {
         global $wgRequest, $wgOut, $wgParser, $wgUser;
         wfLoadExtensionMessages('WikiBookmarks');
+#        header('Content-Type: text/plain; charset=utf-8');
+#        print_r($_POST);
+#        exit;
+        /* если просто запросили справку */
         if (!($page = $wgRequest->getVal('page')) ||
             !($title = Title::newFromText($page)) ||
             !($url = $wgRequest->getVal('url')))
         {
-            $wgOut->setPageTitle(wfMsg('bookmarks-no-params'));
-            $wgOut->setHTMLTitle(wfMsg('bookmarks-no-params'));
-            $wgOut->addHTML(wfMsgExt('bookmarks-no-params-text', 'parse', $wgUser ? $wgUser->getUserPage()->getPrefixedText() : ''));
-            $wgOut->returnToMain();
+            global $wgLang;
+            $article = false;
+            /* текст справки загружаем в wiki, чтобы она, например, находилась поиском */
+            $vars = array_merge($wgLang->getVariants(), array($wgLang->getFallbackLanguageCode()));
+            foreach ($vars as $var)
+            {
+                $file = dirname(__FILE__).'/WikiBookmarks.'.$var.'.wikitext';
+                if (file_exists($file) &&
+                    ($title = Title::newFromText(wfMsg('bookmarks-help-page'))) &&
+                    ($article = new Article($title)))
+                {
+                    if (filemtime($file) > wfTimestamp(TS_UNIX, $article->getTimestamp()))
+                    {
+                        $text = file_get_contents($file);
+                        if (trim($text) != trim($article->getContent()))
+                            $article->doEdit($text, 'WikiBookmarks: load help page', EDIT_FORCE_BOT);
+                    }
+                    break;
+                }
+            }
+            if ($article)
+                $article->doRedirect();
             return;
         }
         /* закладка */
         $urltitle = $wgRequest->getVal('urltitle');
+        $selection = $wgRequest->getVal('selection');
         if (!$urltitle)
-            $urltitle = urldecode($url);
+        {
+            /* если есть выделение и оно не безумное - взять его первые <=50 символов на границе слова */
+            if ($selection && preg_match('/^.{0,50}\b/is', $selection, $m))
+            {
+                $urltitle = $m[0];
+                /* если это и было всё выделение - повторять его уже не нужно */
+                if ($selection == $m[0])
+                    $selection = '';
+            }
+            else
+                $urltitle = urldecode($url);
+        }
         $bookmark = "[$url $urltitle]";
         /* загружаем текст статьи */
         $article = new Article($title);
@@ -102,7 +136,10 @@ class SpecialWikiBookmarks extends SpecialPage
                 $section1 = "\n" . $section1;
             }
             /* записываем закладку в текст */
-            $section1 = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n" . $section1;
+            $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
+            if ($selection)
+                $bm .= "*: ".str_replace("\n", '<br/>', $selection)."\n";
+            $section1 = $bm . $section1;
             if ($content)
                 $content = $wgParser->replaceSection($content, 1, $section1);
             else

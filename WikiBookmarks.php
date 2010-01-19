@@ -17,6 +17,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ * This extension also requires UserMagic (http://yourcmc.ru/wiki/UserMagic_(MediaWiki)) to be installed!
+ *
  * @file
  * @ingroup Extensions
  * @author Vitaliy Filippov <vitalif@mail.ru>
@@ -31,7 +33,7 @@ $wgSpecialPages['Bookmarks'] = 'SpecialWikiBookmarks';
 $wgExtensionCredits['specialpage'][] = array(
     'path'        => __FILE__,
     'name'        => 'WikiBookmarks',
-    'version'     => '0.9',
+    'version'     => '0.91',
     'author'      => 'Vitaliy Filippov',
     'url'         => 'http://www.yourcmc.ru/wiki/index.php/WikiBookmarks_(MediaWiki)',
     'description' => 'Simple bookmarklet support for managing bookmarks using MediaWiki',
