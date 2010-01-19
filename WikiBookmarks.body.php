@@ -35,9 +35,6 @@ class SpecialWikiBookmarks extends SpecialPage
     {
         global $wgRequest, $wgOut, $wgParser, $wgUser;
         wfLoadExtensionMessages('WikiBookmarks');
-#        header('Content-Type: text/plain; charset=utf-8');
-#        print_r($_POST);
-#        exit;
         /* если просто запросили справку */
         if (!($page = $wgRequest->getVal('page')) ||
             !($title = Title::newFromText($page)) ||
@@ -54,7 +51,7 @@ class SpecialWikiBookmarks extends SpecialPage
                     ($title = Title::newFromText(wfMsg('bookmarks-help-page'))) &&
                     ($article = new Article($title)))
                 {
-                    if (filemtime($file) > wfTimestamp(TS_UNIX, $article->getTimestamp()))
+                    if (!$article->exists() || filemtime($file) > wfTimestamp(TS_UNIX, $article->getTimestamp()))
                     {
                         $text = file_get_contents($file);
                         if (trim($text) != trim($article->getContent()))
