@@ -70,7 +70,7 @@ class SpecialWikiBookmarks extends SpecialPage
         if (!$urltitle)
         {
             /* если есть выделение и оно не безумное - взять его первые <=50 символов на границе слова */
-            if ($selection && preg_match('/^.{0,50}\b/is', $selection, $m))
+            if ($selection && preg_match('/^.{0,50}\b/is', strip_tags($selection), $m))
             {
                 $urltitle = $m[0];
                 /* если это и было всё выделение - повторять его уже не нужно */
@@ -135,7 +135,14 @@ class SpecialWikiBookmarks extends SpecialPage
             /* записываем закладку в текст */
             $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
             if ($selection)
-                $bm .= "*: ".str_replace("\n", '<br/>', $selection)."\n";
+            {
+                if (substr($selection,0,6) == '<html>')
+                    $nl = '';
+                else
+                    $nl = '<br/>';
+                $selection = str_replace(array("\n", "\r"), array($nl, ''), $selection);
+                $bm .= "*: $selection\n";
+            }
             $section1 = $bm . $section1;
             if ($content)
                 $content = $wgParser->replaceSection($content, 1, $section1);

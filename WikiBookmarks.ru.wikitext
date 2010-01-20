@@ -43,7 +43,7 @@ f.acceptCharset = 'UTF-8';\
 f.action = 'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title=Special:Bookmarks';\
 f.innerHTML = %22<input type='hidden' name='page' value='"+encodeURI(pg)+"' /><input type='hidden' name='url' value='%22+(''+location.href).replace(%22'%22, %22%2527%22)+%22' />\
 <input type='hidden' name='urltitle' value='%22+(''+document.title).replace(%22'%22, %22%2527%22)+%22' /><input type='hidden' name='selection' value='%22+\
-(function(){var u;if(window.getSelection){u=window.getSelection();}else if(document.selection){u=document.selection.createRange();}else{return '';}if(u.text){u=u.text;}return (''+u).replace(%22'%22, %22%2527%22);}())+\
+(function(){var u;if(window.getSelection){u=window.getSelection();}else if(document.selection){u=document.selection.createRange();}else{return '';}if(u.getRangeAt){u=u.getRangeAt(0);}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);u='%3Chtml>'+d.innerHTML+'%3C/html>';}else if(u.text){u=u.text;}return (''+u).replace(%22'%22, %22%2527%22);}())+\
 %22' />%22;\
 document.body.appendChild(f);\
 f.submit();\
