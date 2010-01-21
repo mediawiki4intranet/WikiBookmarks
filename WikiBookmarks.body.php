@@ -69,16 +69,21 @@ class SpecialWikiBookmarks extends SpecialPage
         $selection = $wgRequest->getVal('selection');
         if (!$urltitle)
         {
+            $urltitle = urldecode($url);
             /* если есть выделение и оно не безумное - взять его первые <=50 символов на границе слова */
-            if ($selection && preg_match('/^.{0,50}\b/is', strip_tags($selection), $m))
+            if ($selection)
             {
-                $urltitle = $m[0];
-                /* если это и было всё выделение - повторять его уже не нужно */
-                if ($selection == $m[0])
-                    $selection = '';
+                $s = $selection;
+                if (substr($s, 0, 6) == '<html>')
+                    $s = strip_tags($s);
+                if (preg_match('/^.{0,50}\b/is', $s, $m))
+                {
+                    $urltitle = $m[0];
+                    /* если это и было всё выделение - повторять его уже не нужно */
+                    if ($selection == $m[0])
+                        $selection = '';
+                }
             }
-            else
-                $urltitle = urldecode($url);
         }
         $bookmark = "[$url $urltitle]";
         /* загружаем текст статьи */
@@ -136,11 +141,19 @@ class SpecialWikiBookmarks extends SpecialPage
             $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
             if ($selection)
             {
-                if (substr($selection,0,6) == '<html>')
+                if (substr($selection, 0, 6) == '<html>')
                     $nl = '';
                 else
                     $nl = '<br/>';
                 $selection = str_replace(array("\n", "\r"), array($nl, ''), $selection);
+                /* исправляем ссылки в HTML */
+                if (!$nl)
+                {
+                    $base = preg_replace('#[^/]*\?.*$#is', '', $url);
+                    $dom = preg_replace('#^([a-z]+:/*[^/]+).*#', '\1', $base);
+                    $selection = preg_replace('#((?:src|href)\s*=\s*[\'"]?)/([^\'"<>]*)#is', "\\1$dom\\2", $selection);
+                    $selection = preg_replace('#((?:src|href)\s*=\s*[\'"]?)(?:[a-z]+:)([^\'"<>]*)#is', "\\1$base\\2", $selection);
+                }
                 $bm .= "*: $selection\n";
             }
             $section1 = $bm . $section1;
