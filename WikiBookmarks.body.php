@@ -149,10 +149,8 @@ class SpecialWikiBookmarks extends SpecialPage
                 /* исправляем ссылки в HTML */
                 if (!$nl)
                 {
-                    $base = preg_replace('#[^/]*\?.*$#is', '', $url);
-                    $dom = preg_replace('#^([a-z]+:/*[^/]+).*#', '\1', $base);
-                    $selection = preg_replace('#((?:src|href)\s*=\s*[\'"]?)/([^\'"<>]*)#is', "\\1$dom\\2", $selection);
-                    $selection = preg_replace('#((?:src|href)\s*=\s*[\'"]?)(?:[a-z]+:)([^\'"<>]*)#is', "\\1$base\\2", $selection);
+                    $fixer = new WikiBookmarksLinkFixer($url);
+                    $selection = $fixer->fix($selection);
                 }
                 $bm .= "*: $selection\n";
             }
@@ -176,5 +174,25 @@ class SpecialWikiBookmarks extends SpecialPage
             $msg .
             '<p><a href="#" onclick="window.close()">'.wfMsg('bookmarks-close-window').'</a><script language="JavaScript">setTimeout("window.close()",5000);</script></p>' .
             '</body></html>';
+    }
+}
+
+class WikiBookmarksLinkFixer
+{
+    var $base, $dom;
+    public function __construct($url)
+    {
+        $this->base = preg_replace('#[^/]*\?.*$#is', '', $url);
+        $this->dom = preg_replace('#^([a-z]+:/*[^/]+).*#', '\1', $this->base);
+    }
+    function fix_links($m)
+    {
+        $m[2] = preg_replace('#((?:src|href)\s*=\s*[\'"]?)/([^\'"<>]*)#is', '\1'.$this->dom.'\2', $m[2]);
+        $m[2] = preg_replace('#((?:src|href)\s*=\s*[\'"]?)(?:[a-z]+:)([^\'"<>]*)#is', '\1'.$this->base.'\2', $m[2]);
+        return $m[1].$m[2];
+    }
+    function fix($s)
+    {
+        return preg_replace_callback('#(<[a-z0-9_\-:]+)(\s+[^>]*)#is', array($this, 'fix_links'), $s);
     }
 }

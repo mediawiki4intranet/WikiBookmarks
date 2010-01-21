@@ -14,41 +14,46 @@ If you'll click the newly added button when viewing some interesting Web page,
 '''WikiBookmarks''' will remember current page's URL, title and selected text, if any,
 on your bookmarks MediaWiki article.
 
-<html><input type="text" id="wb_page" size="20" value="</html>{{ns:User}}:{{USERNAME}}<html>/Bookmarks" />&nbsp;<input type="button" value="Make bookmarklet for me" onclick="wb_make_link()" />
+<!-- The following is HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and copy-pasted among all *.wikitext files. -->
+<html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
+<input type="text" id="wb_page" size="20" value="</html>{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}<html>" /></div>
+<div style="display:inline-block"><label for="wb_text"><b></html>{{MediaWiki:wikibookmarks-text-editlabel}}<html></b></label><br/>
+<input type="text" id="wb_text" size="20" value="</html>{{MediaWiki:wikibookmarks-default-text}}<html>" /></div>
+<input type="button" value="</html>{{MediaWiki:wikibookmarks-make-link}}<html>" onclick="wb_make_link()" />
 <div id="wb_link_div" style="font-weight: bold"></div>
 <script language="JavaScript">
 function wb_make_link()
 {
- pg = document.getElementById("wb_page").value;
+ var pg = document.getElementById("wb_page").value;
+ var t = document.getElementById("wb_text").value;
  if (pg == "")
  {
-  alert("Page title must not be empty!");
+  alert("</html>{{MediaWiki:wikibookmarks-page-empty}}<html>");
   return;
  }
  var d = document.getElementById("wb_link_div");
  d.innerHTML = "";
- d.appendChild(document.createTextNode("Drag-and-drop the following link onto your browser's panel:"));
+ d.appendChild(document.createTextNode("</html>{{MediaWiki:wikibookmarks-drag-bookmarklet}}<html>"));
  d.appendChild(document.createElement('br'));
  d.appendChild(document.createTextNode("[[ "));
  var a = document.createElement('a');
  a.href = "javascript:(function(){\
 var p=location.protocol;\
 if(p=='chrome:'||p=='about:'||p=='javascript:'){return '<meta http-equiv=%22Refresh%22 content=%220; http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title="+encodeURI(encodeURI(pg))+"%22 />';}\
-window.open('about:blank','WikiBookmarks','width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no');\
-var f = document.createElement('form');\
-f.target = 'WikiBookmarks';\
+var w = window.open('about:blank','WikiBookmarks','width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no');\
+var f = w.document.createElement('form');\
 f.method = 'POST';\
 f.acceptCharset = 'UTF-8';\
 f.action = 'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title=Special:Bookmarks';\
 f.innerHTML = %22<input type='hidden' name='page' value='"+encodeURI(pg)+"' /><input type='hidden' name='url' value='%22+(''+location.href).replace(%22'%22, %22%2527%22)+%22' />\
 <input type='hidden' name='urltitle' value='%22+(''+document.title).replace(%22'%22, %22%2527%22)+%22' /><input type='hidden' name='selection' value='%22+\
-(function(){var u;if(window.getSelection){u=window.getSelection();}else if(document.selection){u=document.selection.createRange();}else{return '';}if(u.getRangeAt){u=u.getRangeAt(0);}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);u='%3Chtml>'+d.innerHTML+'%3C/html>';}else if(u.text){u=u.text;}return (''+u).replace(%22'%22, %22%2527%22);}())+\
+(function(){var u;if(window.getSelection){u=window.getSelection()}else if(document.selection){u=document.selection.createRange()}else{return ''}if(u.getRangeAt){u=u.getRangeAt(0)}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);if(d.innerHTML==''){u=''}else{u='%3Chtml>'+d.innerHTML+'%3C/html>'}}else if(u.text){u=u.text}return (''+u).replace(%22'%22, %22%2527%22);}())+\
 %22' />%22;\
-document.body.appendChild(f);\
+w.document.body.appendChild(f);\
 f.submit();\
 return;\
 }())";
- a.innerHTML = 'WikiBookmark it';
+ a.innerHTML = t;
  d.appendChild(a);
  d.appendChild(document.createTextNode(" ]]"));
 }

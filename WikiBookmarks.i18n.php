@@ -48,6 +48,27 @@ $messages['en'] = array(
 
     /* It's already there */
     'bookmarks-bookmark-already-present' => 'Bookmark $1 is already on page [[$2]].',
+
+    /* Error message for "Article title empty" */
+    'wikibookmarks-page-empty'       => 'Please, enter non-empty bookmarks article title!',
+
+    /* Article editbox title */
+    'wikibookmarks-page-editlabel'   => 'Article title:',
+
+    /* Button text editbox title */
+    'wikibookmarks-text-editlabel'   => 'Button text:',
+
+    /* Default button text */
+    'wikibookmarks-default-text'     => 'WikiBookmark it',
+
+    /* Make bookmarklet button text */
+    'wikibookmarks-make-link'        => 'Make bookmarklet for me',
+
+    /* Default bookmarks per-user sub-article name */
+    'wikibookmarks-bookmarks-page'   => 'Bookmarks',
+
+    /* Hint for created bookmarklet */
+    'wikibookmarks-drag-bookmarklet' => 'Drag-and-drop the following link onto your browser\'s panel:',
 );
 
 /* Русский
@@ -74,4 +95,25 @@ $messages['ru'] = array(
 
     /* Закладка уже присутствует */
     'bookmarks-bookmark-already-present' => 'Закладка $1 уже присутствует на странице [[$2]].',
+
+    /* Сообщение об ошибке - о пустом введённом названии страницы закладок */
+    'wikibookmarks-page-empty'       => 'Введите, всё-таки, непустое имя страницы для закладок!',
+
+    /* Подпись поля ввода названия страницы закладок */
+    'wikibookmarks-page-editlabel'   => 'Страница:',
+
+    /* Подпись поля ввода текста букмарклета */
+    'wikibookmarks-text-editlabel'   => 'Текст кнопки:',
+
+    /* Текст по умолчанию для букмарклета */
+    'wikibookmarks-default-text'     => 'В ВикиЗакладки',
+
+    /* Текст кнопки создания букмарклета */
+    'wikibookmarks-make-link'        => 'Вывести ссылку',
+
+    /* Подстраница страницы участника для закладок по умолчанию */
+    'wikibookmarks-bookmarks-page'   => 'Закладки',
+
+    /* Подсказка, а что же делать с букмарклетом */
+    'wikibookmarks-drag-bookmarklet' => 'Перетащите следующую ссылку на панель своего браузера:',
 );
