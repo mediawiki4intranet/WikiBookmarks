@@ -11,24 +11,6 @@
 нажмите кнопку '''Вывести ссылку''' и перетащите появившуюся ссылку себе на панель инструментов
 браузера или добавьте её в закладки браузера.
 
-Далее, находясь на любой странице, которую Вы хотели бы запомнить на странице '''ВикиЗакладок''',
-просто нажмите на добавленную в браузер кнопку. '''ВикиЗакладки''' запоминают адрес текущей страницы,
-её заголовок и выделенный на странице текст, если таковой имеется.
-
-Новые закладки добавляются в список вверху статьи, под несколькими уровнями заголовков.
-По умолчанию это заголовки «== Год ==» и его дочерний «=== Месяц Год ===» («%Y» «%B %Y»).
-Предполагается, что это используется для классификации закладок по датам. Если Вы хотите изменить
-количество и/или формат заголовков, нужно добавить в начало страницы закладок комментарий вида
-<pre><!--BookmarkHeadings:"%Y" "%Y-%m" "%Y-%m-%d"--></pre>
-Из этого комментария '''ВикиЗакладки''' вырезают все строки, заключённые в кавычки, и используют
-их в качестве заголовков последовательных уровней. Формат строк совпадает с форматом функции PHP
-[http://php.net/manual/en/function.strftime.php strftime()] (на самом-то деле это функция libc, но это не важно).
-
-Также Вы можете изменить формат самих даты-времени, отображаемых перед текстом каждой закладки.
-Для этого в начало страницы закладок нужно добавить комментарий вида
-<pre><!--BookmarkDate:"%d %H:%M:%S"--></pre>
-Строка, указанная в кавычках внутри комментария, и будет принята за формат даты-времени закладок.
-
 <!-- The following is HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and copy-pasted among all *.wikitext files. -->
 <html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
 <input type="text" id="wb_page" size="20" value="</html>{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}<html>" /></div>
@@ -60,10 +42,11 @@ var f = w.document.createElement('form');\
 f.method = 'POST';\
 f.acceptCharset = 'UTF-8';\
 f.action = 'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title=Special:Bookmarks';\
-f.innerHTML = %22<input type='hidden' name='page' value='"+encodeURI(pg)+"' /><input type='hidden' name='url' value='%22+(''+location.href).replace(%22'%22, %22%2527%22)+%22' />\
-<input type='hidden' name='urltitle' value='%22+(''+document.title).replace(%22'%22, %22%2527%22)+%22' /><input type='hidden' name='selection' value='%22+\
-(function(){var u;if(window.getSelection){u=window.getSelection()}else if(document.selection){u=document.selection.createRange()}else{return ''}if(u.getRangeAt){u=u.getRangeAt(0)}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);if(d.innerHTML==''){u=''}else{u='%3Chtml>'+d.innerHTML+'%3C/html>'}}else if(u.text){u=u.text}return (''+u).replace(%22'%22, %22%2527%22);}())+\
-%22' />%22;\
+var inf = function(k,v){var i=w.document.createElement('input');i.type='hidden';i.name=k;i.value=v;f.appendChild(i)};\
+inf('page','"+encodeURI(pg)+"');\
+inf('url',''+location.href);\
+inf('urltitle',''+document.title);\
+inf('selection',(function(){var u;if(window.getSelection){u=window.getSelection()}else if(document.selection){u=document.selection.createRange()}else{return ''}if(u.getRangeAt){u=u.getRangeAt(0)}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);if(d.innerHTML==''){u=''}else{u='%3Chtml>'+d.innerHTML+'%3C/html>'}}else if(u.text){u=u.text}return ''+u}()));\
 w.document.body.appendChild(f);\
 f.submit();\
 return;\
@@ -74,3 +57,23 @@ return;\
 }
 </script>
 </html>
+<!-- End HTML+JavaScript -->
+
+Далее, находясь на любой странице, которую Вы хотели бы запомнить на странице '''ВикиЗакладок''',
+просто нажмите на добавленную в браузер кнопку. '''ВикиЗакладки''' запоминают адрес текущей страницы,
+её заголовок и выделенный на странице текст, если таковой имеется.
+
+Новые закладки добавляются в список в начале статьи, под несколькими уровнями заголовков.
+По умолчанию это заголовки '''== Год ==''' и его дочерний '''=== Месяц Год ===''' (<code>"%Y" "%B %Y"</code>).
+Предполагается, что это используется для классификации закладок по датам. Если Вы хотите изменить
+количество и/или формат заголовков, нужно добавить в начало страницы закладок комментарий вида
+<pre><!--BookmarkHeadings:"%Y" "%Y-%m" "%Y-%m-%d"--></pre>
+Из этого комментария '''ВикиЗакладки''' вырезают все строки, заключённые в кавычки, и используют
+их в качестве заголовков последовательных уровней. Формат строк совпадает с форматом функции PHP
+[http://php.net/manual/en/function.strftime.php strftime()] (на самом-то деле это функция libc, но это не важно).
+
+Также Вы можете изменить формат самих даты-времени, отображаемых перед текстом каждой закладки.
+Для этого в начало страницы закладок нужно добавить комментарий вида
+<pre><!--BookmarkDate:"%d %H:%M:%S"--></pre>
+Строка, указанная в кавычках внутри комментария, и будет принята за формат даты-времени закладок.
+
