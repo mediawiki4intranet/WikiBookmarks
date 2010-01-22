@@ -11,53 +11,7 @@
 нажмите кнопку '''Вывести ссылку''' и перетащите появившуюся ссылку себе на панель инструментов
 браузера или добавьте её в закладки браузера.
 
-<!-- The following is HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and copy-pasted among all *.wikitext files. -->
-<html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
-<input type="text" id="wb_page" size="20" value="</html>{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}<html>" /></div>
-<div style="display:inline-block"><label for="wb_text"><b></html>{{MediaWiki:wikibookmarks-text-editlabel}}<html></b></label><br/>
-<input type="text" id="wb_text" size="20" value="</html>{{MediaWiki:wikibookmarks-default-text}}<html>" /></div>
-<input type="button" value="</html>{{MediaWiki:wikibookmarks-make-link}}<html>" onclick="wb_make_link()" />
-<div id="wb_link_div" style="font-weight: bold"></div>
-<script language="JavaScript">
-function wb_make_link()
-{
- var pg = document.getElementById("wb_page").value;
- var t = document.getElementById("wb_text").value;
- if (pg == "")
- {
-  alert("</html>{{MediaWiki:wikibookmarks-page-empty}}<html>");
-  return;
- }
- var d = document.getElementById("wb_link_div");
- d.innerHTML = "";
- d.appendChild(document.createTextNode("</html>{{MediaWiki:wikibookmarks-drag-bookmarklet}}<html>"));
- d.appendChild(document.createElement('br'));
- d.appendChild(document.createTextNode("[[ "));
- var a = document.createElement('a');
- a.href = "javascript:(function(){\
-var p=location.protocol;\
-if(p=='chrome:'||p=='about:'||p=='javascript:'){return '<meta http-equiv=%22Refresh%22 content=%220; http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title="+encodeURI(encodeURI(pg))+"%22 />';}\
-var w = window.open('about:blank','WikiBookmarks','width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no');\
-var f = w.document.createElement('form');\
-f.method = 'POST';\
-f.acceptCharset = 'UTF-8';\
-f.action = 'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title=Special:Bookmarks';\
-var inf = function(k,v){var i=w.document.createElement('input');i.type='hidden';i.name=k;i.value=v;f.appendChild(i)};\
-inf('page','"+encodeURI(pg)+"');\
-inf('url',''+location.href);\
-inf('urltitle',''+document.title);\
-inf('selection',(function(){var u;if(window.getSelection){u=window.getSelection()}else if(document.selection){u=document.selection.createRange()}else{return ''}if(u.getRangeAt){u=u.getRangeAt(0)}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);if(d.innerHTML==''){u=''}else{u='%3Chtml>'+d.innerHTML+'%3C/html>'}}else if(u.text){u=u.text}return ''+u}()));\
-w.document.body.appendChild(f);\
-f.submit();\
-return;\
-}())";
- a.innerHTML = t;
- d.appendChild(a);
- d.appendChild(document.createTextNode(" ]]"));
-}
-</script>
-</html>
-<!-- End HTML+JavaScript -->
+__BOOKMARKLET_CREATION_CODE__
 
 Далее, находясь на любой странице, которую Вы хотели бы запомнить на странице '''ВикиЗакладок''',
 просто нажмите на добавленную в браузер кнопку. '''ВикиЗакладки''' запоминают адрес текущей страницы,

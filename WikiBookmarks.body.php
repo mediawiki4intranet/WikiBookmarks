@@ -44,6 +44,8 @@ class SpecialWikiBookmarks extends SpecialPage
             $article = false;
             /* текст справки загружаем в wiki, чтобы она, например, находилась поиском */
             $vars = array_merge($wgLang->getVariants(), array($wgLang->getFallbackLanguageCode()));
+            $htmlfile = dirname(__FILE__).'/WikiBookmarks.html';
+            $htmlmtime = filemtime($htmlfile);
             foreach ($vars as $var)
             {
                 $file = dirname(__FILE__).'/WikiBookmarks.'.$var.'.wikitext';
@@ -51,9 +53,15 @@ class SpecialWikiBookmarks extends SpecialPage
                     ($title = Title::newFromText(wfMsg('bookmarks-help-page'))) &&
                     ($article = new Article($title)))
                 {
-                    if (!$article->exists() || filemtime($file) > wfTimestamp(TS_UNIX, $article->getTimestamp()))
+                    $mtime = filemtime($file);
+                    if ($htmlmtime > $mtime)
+                        $mtime = $htmlmtime;
+                    if (!$article->exists() || $mtime > wfTimestamp(TS_UNIX, $article->getTimestamp()))
                     {
                         $text = file_get_contents($file);
+                        $text = str_replace('__BOOKMARKLET_CREATION_CODE__', trim(file_get_contents($htmlfile)), $text);
+                        $r = new WikiBookmarksMessageReplacer($var);
+                        $text = $r->run($text);
                         if (trim($text) != trim($article->getContent()))
                             $article->doEdit($text, 'WikiBookmarks: load help page', EDIT_FORCE_BOT);
                     }
@@ -177,10 +185,27 @@ class SpecialWikiBookmarks extends SpecialPage
     }
 }
 
+class WikiBookmarksMessageReplacer
+{
+    var $lang;
+    function __construct($lang)
+    {
+        $this->lang = $lang;
+    }
+    function run($s)
+    {
+        return preg_replace_callback('#\{\{MediaWiki:([^\}]*)\}\}#', array($this, 'getMessage'), $s);
+    }
+    function getMessage($m)
+    {
+        return wfMsgGetKey($m[1], true, $this->lang);
+    }
+}
+
 class WikiBookmarksLinkFixer
 {
     var $base, $dom;
-    public function __construct($url)
+    function __construct($url)
     {
         $this->base = preg_replace('#[^/]*\?.*$#is', '', $url);
         $this->dom = preg_replace('#^([a-z]+:/*[^/]+).*#', '\1', $this->base);

@@ -28,13 +28,6 @@ $dir = dirname(__FILE__) . '/';
 $wgAutoloadClasses['SpecialWikiBookmarks'] = $dir . 'WikiBookmarks.body.php';
 $wgExtensionMessagesFiles['WikiBookmarks'] = $dir . 'WikiBookmarks.i18n.php';
 $wgSpecialPages['Bookmarks'] = 'SpecialWikiBookmarks';
-$wgExtensionFunctions[] = 'efWikiBookmarksLoadExtensionMessages';
-
-// Extension's i18n must be preloaded as it is used on a regular wiki page
-function efWikiBookmarksLoadExtensionMessages()
-{
-    wfLoadExtensionMessages('WikiBookmarks');
-}
 
 // Extension credits that will show up on Special:Version
 $wgExtensionCredits['specialpage'][] = array(
