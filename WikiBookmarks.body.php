@@ -67,10 +67,6 @@ class SpecialWikiBookmarks extends SpecialPage
         /* закладка */
         $urltitle = $wgRequest->getVal('urltitle');
         $selection = $wgRequest->getVal('selection');
-                    $fixer = new WikiBookmarksLinkFixer($url);
-                    $selection = $fixer->fix($selection);
-                    print $selection;
-                    exit;
         if (!$urltitle)
         {
             $urltitle = urldecode($url);
