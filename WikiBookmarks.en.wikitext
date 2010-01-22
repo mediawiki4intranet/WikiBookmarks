@@ -1,4 +1,7 @@
-'''WikiBookmarks''' is a '''MediaWiki''' extension which lets you to manage shared bookmark lists inside a Wiki article.
+'''WikiBookmarks''' is a '''MediaWiki''' extension which lets you to manage shared bookmark
+lists inside a Wiki article. The extension is written by [http://yourcmc.ru/wiki/User:VitaliyFilippov Vitaliy Filippov]
+and is distributed under the terms of GNU GPL license version 3 or later. Also, here is a
+[http://yourcmc.ru/wiki/WikiBookmarks_(MediaWiki) link to extension homepage].
 
 You always can find a fresh version of the '''WikiBookmarks''' documentation on the [[Special:Bookmarks]] page.
 Actually, you've already found it :-).
@@ -9,10 +12,6 @@ To install such a bookmarklet in your browser, you need to enter the title
 of Wiki Article which you want to maintain as your bookmark list, click
 ''Make bookmarklet'' and drag-and-drop displayed link onto your browser's
 panel or add it into your browser's bookmarks.
-
-If you'll click the newly added button when viewing some interesting Web page,
-'''WikiBookmarks''' will remember current page's URL, title and selected text, if any,
-on your bookmarks MediaWiki article.
 
 <!-- The following is HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and copy-pasted among all *.wikitext files. -->
 <html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
@@ -61,3 +60,27 @@ return;\
 </script>
 </html>
 <!-- End HTML+JavaScript -->
+
+When you click the newly added button when viewing some interesting Web page,
+'''WikiBookmarks''' will remember current page's URL, title and selected text (if any),
+on MediaWiki article you selected for bookmarks ([[{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}]] by default).
+
+The new bookmarks are added into beginning of an article, under certain count of headings.
+By default the first-level headings are named '''== Year ==''' and the second-level headings
+are named '''=== Month Year ===''' (<code>"%Y" "%B %Y"</code>). This meant to be used for
+bookmark classification by date. If you want to change heading count and/or heading date format,
+you must add a line similar to the following one into the beginning of your bookmarks article:
+<pre><!--BookmarkHeadings:"%Y" "%Y-%m" "%Y-%m-%d"--></pre>
+'''WikiBookmarks''' extracts all present quoted strings from such a comment and use them
+as the date dependent headings. The format of formatting strings is the same as in PHP
+function [http://php.net/manual/en/function.strftime.php strftime()] (as you know, actually it's
+libc's, but it doesn't matter).
+
+You also have the option of changing format of the date-time string appended to list item
+before each bookmark. To do this, you must add a line similar to the following one into the
+beginning of your bookmarks article:
+<pre><!--BookmarkDate:"%d %H:%M:%S"--></pre>
+If such a comment is present, '''WikiBookmarks''' will take the quoted string from it and use it
+as date and time format.
+
+[[Category:Help]]
