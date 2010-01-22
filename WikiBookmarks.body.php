@@ -67,6 +67,10 @@ class SpecialWikiBookmarks extends SpecialPage
         /* закладка */
         $urltitle = $wgRequest->getVal('urltitle');
         $selection = $wgRequest->getVal('selection');
+                    $fixer = new WikiBookmarksLinkFixer($url);
+                    $selection = $fixer->fix($selection);
+                    print $selection;
+                    exit;
         if (!$urltitle)
         {
             $urltitle = urldecode($url);
@@ -188,7 +192,7 @@ class WikiBookmarksLinkFixer
     function fix_links($m)
     {
         $m[2] = preg_replace('#((?:src|href)\s*=\s*[\'"]?)/([^\'"<>]*)#is', '\1'.$this->dom.'\2', $m[2]);
-        $m[2] = preg_replace('#((?:src|href)\s*=\s*[\'"]?)(?:[a-z]+:)([^\'"<>]*)#is', '\1'.$this->base.'\2', $m[2]);
+        $m[2] = preg_replace('#(?>(?:src|href)\s*=\s*[\'"]?)(?![a-z]+:)([^\'"<>]*)#is', '\1'.$this->base.'\2', $m[2]);
         return $m[1].$m[2];
     }
     function fix($s)
