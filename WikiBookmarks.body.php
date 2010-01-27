@@ -96,57 +96,15 @@ class SpecialWikiBookmarks extends SpecialPage
         $bookmark = "[$url $urltitle]";
         /* загружаем текст статьи */
         $article = new Article($title);
+        $content = '';
         if ($article->exists())
             $content = $article->getContent();
         $wgOut->disable();
         if (count($permErrors = $title->getUserPermissionsErrors('edit', $wgUser)) ||
             $wgUser->pingLimiter())
             $msg = wfMsgExt('bookmarks-edit-access-denied', 'parse', $title->getPrefixedText());
-        else if (strpos($content, "[$url ") === false)
+        else
         {
-            $s0 = $article->getSection($content, 0);
-            $split = false;
-            $datef = false;
-            if (preg_match('/<!--\s*bookmarkheadings:?\s*(.+\S)\s*-->/is', $s0, $m))
-            {
-                $re = "/\"((?:[^\"\\\\]+|\\\\\\\\|\\\\\")+)\"/is";
-                preg_match_all($re, $m[1], $split, PREG_PATTERN_ORDER);
-                $split = $split[1];
-            }
-            if (preg_match('/<!--\s*bookmarkdate:?\s*(.+\S)\s*-->/is', $s0, $m))
-                $datef = trim($m[1]);
-            if (!$split || !count($split))
-                $split = array('%Y', '%B %Y');
-            if (!$datef)
-                $datef = '%d %B, %H:%M:%S:';
-            $split = array_map('strftime', $split);
-            /* парсим текст статьи */
-            $section1 = $article->getSection($content, 1);
-            $prefix = '';
-            $headlevel = 2;
-            for ($i = 0; $i < count($split); $i++)
-            {
-                if (!preg_match('/^.*?(?:^|\n|\r)(=+)([^\n]*[^=])=+(?:\n|\r|$)/s', $section1, $m))
-                    break;
-                $headlevel = strlen($m[1]);
-                $head = trim($m[2]);
-                if ($head == $split[$i])
-                {
-                    $prefix .= $m[0];
-                    $section1 = trim(substr($section1, strlen($m[0])));
-                }
-                else
-                    break;
-            }
-            if ($i < count($split))
-            {
-                $prefix = trim($prefix);
-                for ($j = $i; $j < count($split); $j++, $headlevel++)
-                    $prefix .= "\n\n" . str_repeat('=', $headlevel) . ' ' . $split[$j] . ' ' . str_repeat('=', $headlevel);
-                $section1 = "\n" . $section1;
-            }
-            /* записываем закладку в текст */
-            $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
             if ($selection)
             {
                 if (substr($selection, 0, 6) == '<html>')
@@ -160,19 +118,84 @@ class SpecialWikiBookmarks extends SpecialPage
                     $fixer = new WikiBookmarksLinkFixer($url);
                     $selection = $fixer->fix($selection);
                 }
-                $bm .= "*: $selection\n";
+                $selection = "*: $selection\n";
             }
-            $section1 = $bm . $section1;
-            if ($content)
-                $content = $wgParser->replaceSection($content, 1, $section1);
             else
-                $content = $section1;
+                $selection = '';
+            $comment = false;
+            if (($p = strpos($content, "[$url ")) !== false)
+            {
+                $cite = '';
+                if (preg_match('/([^\n]*\n)(.*?)[ \t\r]*\*(?!\s*:)/s', substr($content, $p), $m))
+                    $cite = $m[2];
+                if (!$selection || strpos(preg_replace('/\s+/s','',$cite), preg_replace('/\s+/','',$selection)))
+                    $msg = wfMsgExt('bookmarks-bookmark-already-present', 'parse', $bookmark, $title->getPrefixedText());
+                else
+                {
+                    /* дописываем цитату */
+                    $p += strlen($m[1])+strlen($m[2]);
+                    $content = substr($content, 0, $p) . $selection . substr($content, $p);
+                    $msg = wfMsgExt('bookmarks-cite-added', 'parse', $url, $urltitle, substr($selection, 3, -1), $title->getPrefixedText());
+                    $comment = wfMsgExt('bookmarks-add-cite-summary', array('parsemag', 'escape'), $url, $urltitle);
+                }
+            }
+            else
+            {
+                $s0 = $article->getSection($content, 0);
+                $split = false;
+                $datef = false;
+                if (preg_match('/<!--\s*bookmarkheadings:?\s*(.+\S)\s*-->/is', $s0, $m))
+                {
+                    $re = "/\"((?:[^\"\\\\]+|\\\\\\\\|\\\\\")+)\"/is";
+                    preg_match_all($re, $m[1], $split, PREG_PATTERN_ORDER);
+                    $split = $split[1];
+                }
+                if (preg_match('/<!--\s*bookmarkdate:?\s*(.+\S)\s*-->/is', $s0, $m))
+                    $datef = trim($m[1]);
+                if (!$split || !count($split))
+                    $split = array('%Y', '%B %Y');
+                if (!$datef)
+                    $datef = '%d %B, %H:%M:%S:';
+                $split = array_map('strftime', $split);
+                /* парсим текст статьи */
+                $section1 = $article->getSection($content, 1);
+                $prefix = '';
+                $headlevel = 2;
+                for ($i = 0; $i < count($split); $i++)
+                {
+                    if (!preg_match('/^.*?(?:^|\n|\r)(=+)([^\n]*[^=])=+(?:\n|\r|$)/s', $section1, $m))
+                        break;
+                    $headlevel = strlen($m[1]);
+                    $head = trim($m[2]);
+                    if ($head == $split[$i])
+                    {
+                        $prefix .= $m[0];
+                        $section1 = trim(substr($section1, strlen($m[0])));
+                    }
+                    else
+                        break;
+                }
+                if ($i < count($split))
+                {
+                    $prefix = trim($prefix);
+                    for ($j = $i; $j < count($split); $j++, $headlevel++)
+                        $prefix .= "\n\n" . str_repeat('=', $headlevel) . ' ' . $split[$j] . ' ' . str_repeat('=', $headlevel);
+                    $section1 = "\n" . $section1;
+                }
+                /* записываем закладку в текст */
+                $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
+                $section1 = $bm . $selection . $section1;
+                if ($content)
+                    $content = $wgParser->replaceSection($content, 1, $section1);
+                else
+                    $content = $section1;
+                $msg = wfMsgExt('bookmarks-bookmark-added', 'parse', $bookmark, $title->getPrefixedText());
+                $comment = wfMsgExt('bookmarks-edit-summary', array('parsemag', 'escape'), $url, $urltitle);
+            }
             /* сохраняем текст статьи */
-            $article->doEdit($content, wfMsgExt('bookmarks-edit-summary', array('parsemag', 'escape'), $url, $urltitle));
-            $msg = wfMsgExt('bookmarks-bookmark-added', 'parse', $bookmark, $title->getPrefixedText());
+            if ($comment)
+                $article->doEdit($content, $comment);
         }
-        else
-            $msg = wfMsgExt('bookmarks-bookmark-already-present', 'parse', $bookmark, $title->getPrefixedText());
         /* выводим мини-страничку */
         header('Content-Type: text/html; charset=utf-8');
         print

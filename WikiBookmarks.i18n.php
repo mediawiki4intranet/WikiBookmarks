@@ -46,6 +46,12 @@ $messages['en'] = array(
     /* Bookmark added */
     'bookmarks-bookmark-added' => 'Bookmark $1 added onto page [[$2]].',
 
+    /* Citation added to bookmark */
+    'bookmarks-cite-added' => 'Added citation to bookmark [$1 $2] onto page [[$4]]:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* Edit summary for citation additions */
+    'bookmarks-add-cite-summary' => 'Added citation to bookmark $2',
+
     /* It's already there */
     'bookmarks-bookmark-already-present' => 'Bookmark $1 is already on page [[$2]].',
 
@@ -95,6 +101,12 @@ $messages['ru'] = array(
 
     /* Закладка уже присутствует */
     'bookmarks-bookmark-already-present' => 'Закладка $1 уже присутствует на странице [[$2]].',
+
+    /* К закладке добавлена цитата */
+    'bookmarks-cite-added' => 'К закладке [$1 $2] на страницу [[$4]] добавлена цитата:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* Комментарий к правкам при добавлении цитат */
+    'bookmarks-add-cite-summary' => 'Добавлена цитата к закладке $2',
 
     /* Сообщение об ошибке - о пустом введённом названии страницы закладок */
     'wikibookmarks-page-empty'       => 'Введите, всё-таки, непустое имя страницы для закладок!',
