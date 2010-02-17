@@ -108,7 +108,7 @@ class SpecialWikiBookmarks extends SpecialPage
             if ($selection)
             {
                 if (substr($selection, 0, 6) == '<html>')
-                    $nl = '';
+                    $nl = ' ';
                 else
                     $nl = '<br/>';
                 $selection = str_replace(array("\n", "\r"), array($nl, ''), $selection);
