@@ -33,7 +33,7 @@ class SpecialWikiBookmarks extends SpecialPage
     }
     public function execute($par)
     {
-        global $wgRequest, $wgOut, $wgParser, $wgUser;
+        global $wgRequest, $wgOut, $wgParser, $wgUser, $egWikiBookmarksPageTemplate;
         wfLoadExtensionMessages('WikiBookmarks');
         /* если просто запросили справку */
         if (!($page = $wgRequest->getVal('page')) ||
@@ -188,7 +188,28 @@ class SpecialWikiBookmarks extends SpecialPage
                 if ($content)
                     $content = $wgParser->replaceSection($content, 1, $section1);
                 else
-                    $content = $section1;
+                {
+                    $tmpl = $egWikiBookmarksPageTemplate;
+                    if (!$tmpl)
+                        $tmpl = 'WikiBookmarks';
+                    if (($tmpl = Title::newFromText($tmpl, NS_TEMPLATE)) &&
+                        ($tmpl = new Article($tmpl)) &&
+                        ($tmpl->getID()))
+                    {
+                        $content = $tmpl->getContent();
+                        $content = str_ireplace(
+                            array('$title', '$username', '$userrealname'),
+                            array($title->getText(), $wgUser->getName(), $wgUser->getRealName()),
+                            $content
+                        );
+                        if (stripos($content, '$content') !== false)
+                            $content = str_ireplace('$content', $section1, $content);
+                        else
+                            $content .= "\n" . $section1;
+                    }
+                    else
+                        $content = $section1;
+                }
                 $msg = wfMsgExt('bookmarks-bookmark-added', 'parse', $bookmark, $title->getPrefixedText());
                 $comment = wfMsgExt('bookmarks-edit-summary', array('parsemag', 'escape'), $url, $urltitle);
             }
