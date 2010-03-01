@@ -93,7 +93,7 @@ class SpecialWikiBookmarks extends SpecialPage
                 }
             }
         }
-        $bookmark = "[$url $urltitle]";
+        $urltitle = str_replace(array("[", "]"), array("(", ")"), trim($urltitle));
         /* загружаем текст статьи */
         $article = new Article($title);
         $content = '';
@@ -123,6 +123,7 @@ class SpecialWikiBookmarks extends SpecialPage
             else
                 $selection = '';
             $comment = false;
+            $bookmark = "[$url $urltitle]";
             if (($p = strpos($content, "[$url ")) !== false)
             {
                 $cite = '';
