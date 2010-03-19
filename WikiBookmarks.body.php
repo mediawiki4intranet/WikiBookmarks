@@ -136,6 +136,8 @@ class SpecialWikiBookmarks extends SpecialPage
                 {
                     /* дописываем цитату */
                     $p += strlen($m[1])+strlen($m[2]);
+                    if (!trim($cite))
+                        $selection .= "<!-- NEXT BOOKMARK -->\n";
                     $content = substr($content, 0, $p) . $selection . substr($content, $p);
                     $msg = wfMsgExt('bookmarks-cite-added', 'parse', $url, $urltitle, substr($selection, 3, -1), $title->getPrefixedText());
                     $comment = wfMsgExt('bookmarks-add-cite-summary', array('parsemag', 'escape'), $url, $urltitle);
@@ -186,6 +188,8 @@ class SpecialWikiBookmarks extends SpecialPage
                 }
                 /* записываем закладку в текст */
                 $bm = trim($prefix) . "\n\n* " . strftime($datef) . ' ' . $bookmark . "\n";
+                if ($selection)
+                    $selection .= "<!-- NEXT BOOKMARK -->\n";
                 $section1 = $bm . $selection . $section1;
                 if ($content)
                     $content = $wgParser->replaceSection($content, 1, $section1);
