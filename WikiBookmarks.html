@@ -1,15 +1,18 @@
 <!-- The following is Wikitext/HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and substituted into Wikitext help files. -->
 <html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
-<input type="text" id="wb_page" size="20" value="</html>{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}<html>" /></div>
+<input type="text" id="wb_page" size="20" value="" /></div>
 <div style="display:inline-block"><label for="wb_text"><b></html>{{MediaWiki:wikibookmarks-text-editlabel}}<html></b></label><br/>
 <input type="text" id="wb_text" size="20" value="</html>{{MediaWiki:wikibookmarks-default-text}}<html>" /></div>
 <input type="button" value="</html>{{MediaWiki:wikibookmarks-make-link}}<html>" onclick="wb_make_link()" />
 <div id="wb_link_div" style="font-weight: bold"></div>
+<script language="JavaScript" type="text/javascript" src="</html>{{SERVERNAME}}{{SCRIPTPATH}}/extensions/WikiBookmarks/WikiBookmarks.js<html>"></script>
 <script language="JavaScript">
 function wb_make_link()
 {
  var pg = document.getElementById("wb_page").value;
  var t = document.getElementById("wb_text").value;
+ if (!t)
+  t = "</html>{{MediaWiki:wikibookmarks-default-text}}<html>";
  if (pg == "")
  {
   alert("</html>{{MediaWiki:wikibookmarks-page-empty}}<html>");
@@ -21,26 +24,16 @@ function wb_make_link()
  d.appendChild(document.createElement('br'));
  d.appendChild(document.createTextNode("[[ "));
  var a = document.createElement('a');
- a.href = "javascript:(function(){\
-var p=location.protocol;\
-if(p=='chrome:'||p=='about:'||p=='javascript:'){return '<meta http-equiv=%22Refresh%22 content=%220; http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title="+encodeURI(encodeURI(pg))+"%22 />';}\
-var w = window.open('about:blank','WikiBookmarks','width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no');\
-var f = w.document.createElement('form');\
-f.method = 'POST';\
-f.acceptCharset = 'UTF-8';\
-f.action = 'http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/index.php?title=Special:Bookmarks';\
-var inf = function(k,v){var i=w.document.createElement('input');i.type='hidden';i.name=k;i.value=v;f.appendChild(i)};\
-inf('page','"+encodeURI(pg)+"');\
-inf('url',''+location.href);\
-inf('urltitle',''+document.title);\
-inf('selection',(function(){var u;if(window.getSelection){u=window.getSelection()}else if(document.selection){u=document.selection.createRange()}else{return ''}if(u.getRangeAt){if(!u.rangeCount){return '';}u=u.getRangeAt(0)}if(u.cloneContents){u=u.cloneContents();d=document.createElement('div');d.appendChild(u);if(d.innerHTML==''){u=''}else{u='%3Chtml>'+d.innerHTML+'%3C/html>'}}else if(u.text){u=u.text}return ''+u}()));\
-w.document.body.appendChild(f);\
-f.submit();\
-return;\
-}())";
+ a.href = wb_bookmarklet(pg);
  a.innerHTML = t;
  d.appendChild(a);
  d.appendChild(document.createTextNode(" ]]"));
+}
+if (wgUserName)
+{
+ var defp = "</html>{{ns:User}}<html>:" + wgUserName + "/</html>{{MediaWiki:wikibookmarks-bookmarks-page}}<html>";
+ document.getElementById("wb_page").value = defp;
+ document.getElementById("wb_default").innerHTML = "</html>{{MediaWiki:wikibookmarks-default}}<html>".replace("$1", defp);
 }
 </script>
 </html>

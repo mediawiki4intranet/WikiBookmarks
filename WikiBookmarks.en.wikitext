@@ -17,7 +17,7 @@ __BOOKMARKLET_CREATION_CODE__
 
 When you click the newly added button when viewing some interesting Web page,
 '''WikiBookmarks''' will remember current page's URL, title and selected text (if any),
-on MediaWiki article you selected for bookmarks ([[{{ns:User}}:{{USERNAME}}/{{MediaWiki:wikibookmarks-bookmarks-page}}]] by default).
+on MediaWiki article you selected for bookmarks<span id="wb_default"></span>.
 
 The new bookmarks are added into beginning of an article, under certain count of headings.
 By default the first-level headings are named '''== Year ==''' and the second-level headings

@@ -40,7 +40,8 @@ class SpecialWikiBookmarks extends SpecialPage
             !($title = Title::newFromText($page)) ||
             !($url = $wgRequest->getVal('url')))
         {
-            global $wgLang;
+            global $wgLang, $wgEnableParserCache;
+            $wgEnableParserCache = false;
             $article = false;
             /* текст справки загружаем в wiki, чтобы она, например, находилась поиском */
             $vars = array_merge($wgLang->getVariants(), array($wgLang->getFallbackLanguageCode()));
@@ -69,7 +70,7 @@ class SpecialWikiBookmarks extends SpecialPage
                 }
             }
             if ($article)
-                $article->doRedirect();
+                $article->view();
             return;
         }
         /* закладка */
@@ -127,7 +128,7 @@ class SpecialWikiBookmarks extends SpecialPage
             if (($p = strpos($content, "[$url ")) !== false)
             {
                 $cite = '';
-                if (preg_match('/([^\n]*\n)(.*?)[ \t\r]*\*(?!\s*:)/s', substr($content, $p), $m))
+                if (preg_match('/([^\n]*\n)(.*?\n)[ \t\r]*(?:[^\*]|\*(?!\s*:))/s', substr($content, $p), $m))
                     $cite = $m[2];
                 if (!$selection || strpos(preg_replace('/\s+/s','',$cite), preg_replace('/\s+/','',$selection)))
                     $msg = wfMsgExt('bookmarks-bookmark-already-present', 'parse', $bookmark, $title->getPrefixedText());

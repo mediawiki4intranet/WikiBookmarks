@@ -75,6 +75,9 @@ $messages['en'] = array(
 
     /* Hint for created bookmarklet */
     'wikibookmarks-drag-bookmarklet' => 'Drag-and-drop the following link onto your browser\'s panel:',
+
+    /* A note about default bookmark page */
+    'wikibookmarks-default'          => ' (<b>$1</b> by default)',
 );
 
 /* Русский
@@ -128,4 +131,7 @@ $messages['ru'] = array(
 
     /* Подсказка, а что же делать с букмарклетом */
     'wikibookmarks-drag-bookmarklet' => 'Перетащите следующую ссылку на панель своего браузера:',
+
+    /* Замечание о странице по умолчанию */
+    'wikibookmarks-default'          => ' (по умолчанию <b>$1</b>)',
 );
