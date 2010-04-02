@@ -127,15 +127,19 @@ class SpecialWikiBookmarks extends SpecialPage
             $bookmark = "[$url $urltitle]";
             if (($p = strpos($content, "[$url ")) !== false)
             {
+                $p = strpos($content, "\n", $p);
+                if ($p === false)
+                    $p = strlen($content);
+                else
+                    $p++;
                 $cite = '';
-                if (preg_match('/([^\n]*\n)(.*?\n)[ \t\r]*(?:[^\*]|\*(?!\s*:))/s', substr($content, $p), $m))
-                    $cite = $m[2];
+                if (preg_match("/(?<=\n)[ \t\r]*([^ \t\r\\*:]|\\*[ \t\r]*[^ \t\r\\*:])/s", $content, $m, PREG_OFFSET_CAPTURE, $p))
+                    $cite = substr($content, $p, $m[0][1]-$p);
                 if (!$selection || strpos(preg_replace('/\s+/s','',$cite), preg_replace('/\s+/','',$selection)))
                     $msg = wfMsgExt('bookmarks-bookmark-already-present', 'parse', $bookmark, $title->getPrefixedText());
                 else
                 {
                     /* дописываем цитату */
-                    $p += strlen($m[1])+strlen($m[2]);
                     if (!trim($cite))
                         $selection .= "<!-- NEXT BOOKMARK -->\n";
                     $content = substr($content, 0, $p) . $selection . substr($content, $p);
