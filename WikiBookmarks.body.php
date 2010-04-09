@@ -114,7 +114,7 @@ class SpecialWikiBookmarks extends SpecialPage
                     $nl = '<br/>';
                 $selection = str_replace(array("\n", "\r"), array($nl, ''), $selection);
                 /* исправляем ссылки в HTML */
-                if (!$nl)
+                if (substr($selection, 0, 6) == '<html>')
                 {
                     $fixer = new WikiBookmarksLinkFixer($url);
                     $selection = $fixer->fix($selection);
