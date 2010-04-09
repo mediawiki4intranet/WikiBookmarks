@@ -261,13 +261,13 @@ class WikiBookmarksLinkFixer
     var $base, $dom;
     function __construct($url)
     {
-        $this->base = preg_replace('#[^/]*\?.*$#is', '', $url);
+        $this->base = preg_replace('#[^/]*(\?.*)?$#is', '', $url);
         $this->dom = preg_replace('#^([a-z]+:/*[^/]+).*#', '\1', $this->base);
     }
     function fix_links($m)
     {
         $m[2] = preg_replace('#((?:src|href)\s*=\s*[\'"]?)/([^\'"<>]*)#is', '\1'.$this->dom.'/\2', $m[2]);
-        $m[2] = preg_replace('#(?>(?:src|href)\s*=\s*[\'"]?)(?![a-z]+:)([^\'"<>]*)#is', '\1'.$this->base.'\2', $m[2]);
+        $m[2] = preg_replace('#((?>(?:src|href)\s*=\s*[\'"]?))(?![a-z]+:)([^\'"<>]*)#is', '\1'.$this->base.'\2', $m[2]);
         return $m[1].$m[2];
     }
     function fix($s)
