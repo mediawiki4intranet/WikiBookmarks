@@ -102,7 +102,8 @@ class SpecialWikiBookmarks extends SpecialPage
             $content = $article->getContent();
         $wgOut->disable();
         if (count($permErrors = $title->getUserPermissionsErrors('edit', $wgUser)) ||
-            $wgUser->pingLimiter())
+            $wgUser->pingLimiter() ||
+            !$title->userCanEdit())
             $msg = wfMsgExt('bookmarks-edit-access-denied', 'parse', $title->getPrefixedText());
         else
         {
