@@ -162,9 +162,9 @@ class SpecialWikiBookmarks extends SpecialPage
                 if (preg_match('/<!--\s*bookmarkdate:?\s*(.+\S)\s*-->/is', $s0, $m))
                     $datef = trim($m[1]);
                 if (!$split || !count($split))
-                    $split = array('%Y', '%B %Y');
+                    $split = array('%Y', '%Y-%m');
                 if (!$datef)
-                    $datef = '%d %B, %H:%M:%S:';
+                    $datef = '%Y-%m-%d, %H:%M:%S:';
                 $split = array_map('strftime', $split);
                 /* парсим текст статьи */
                 $section1 = $article->getSection($content, 1);
