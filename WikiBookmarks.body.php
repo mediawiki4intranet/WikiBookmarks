@@ -64,7 +64,10 @@ class SpecialWikiBookmarks extends SpecialPage
                         $r = new WikiBookmarksMessageReplacer($var);
                         $text = $r->run($text);
                         if (trim($text) != trim($article->getContent()))
+                        {
                             $article->doEdit($text, 'WikiBookmarks: load help page', EDIT_FORCE_BOT);
+                            $article = new Article($title);
+                        }
                     }
                     break;
                 }
