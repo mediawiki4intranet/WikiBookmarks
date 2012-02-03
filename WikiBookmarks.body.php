@@ -153,7 +153,7 @@ class SpecialWikiBookmarks extends SpecialPage
             }
             else
             {
-                $s0 = $article->getSection($content, 0);
+                $s0 = $wgParser->getSection($content, 0);
                 $split = false;
                 $datef = false;
                 if (preg_match('/<!--\s*bookmarkheadings:?\s*(.+\S)\s*-->/is', $s0, $m))
@@ -170,7 +170,7 @@ class SpecialWikiBookmarks extends SpecialPage
                     $datef = '%Y-%m-%d, %H:%M:%S:';
                 $split = array_map('strftime', $split);
                 /* парсим текст статьи */
-                $section1 = $article->getSection($content, 1);
+                $section1 = $wgParser->getSection($content, 1);
                 $prefix = '';
                 $headlevel = 2;
                 for ($i = 0; $i < count($split); $i++)
