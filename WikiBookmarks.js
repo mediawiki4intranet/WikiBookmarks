@@ -1,8 +1,8 @@
 function wb_bookmarklet(pg)
 {
- return "javascript:(function(){\
+return "javascript:(function(){\
 var p=location.protocol;\
-if(p=='chrome:'||p=='about:'||p=='javascript:'){return '<meta http-equiv=%22Refresh%22 content=%220; "+wgServer+wgScriptPath+"/index.php?title="+encodeURI(encodeURI(pg))+"%22 />';}\
+if(p!='http:'&&p!='https:'&&p!='ftp:'){return '<meta http-equiv=%22Refresh%22 content=%220; "+wgServer+wgScriptPath+"/index.php?title="+encodeURI(encodeURI(pg))+"%22 />';}\
 var w = window.open('about:blank','WikiBookmarks','width=400,height=150,menubar=no,location=no,resizable=yes,scrollbars=no');\
 var f = w.document.createElement('form');\
 f.method = 'POST';\
