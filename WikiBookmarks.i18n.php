@@ -46,8 +46,17 @@ $messages['en'] = array(
     /* Bookmark added */
     'bookmarks-bookmark-added' => 'Bookmark $1 added onto page [[$2]].',
 
+    /* Bookmark added with citation */
+    'bookmarks-bookmark-cite-added' => 'Bookmark $1 added onto page [[$2]] with citation:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* Bookmark added with citation (without citation text) */
+    'bookmarks-bookmark-cite-added-simple' => 'Bookmark $1 added onto page [[$2]] with citation.',
+
     /* Citation added to bookmark */
     'bookmarks-cite-added' => 'Added citation to bookmark [$1 $2] onto page [[$4]]:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* Citation added to bookmark (without citation text) */
+    'bookmarks-cite-added-simple' => 'Added citation to bookmark [$1 $2] onto page [[$3]].',
 
     /* Edit summary for citation additions */
     'bookmarks-add-cite-summary' => 'Added citation to bookmark $2',
@@ -102,11 +111,20 @@ $messages['ru'] = array(
     /* Закладка добавлена */
     'bookmarks-bookmark-added' => 'Закладка $1 добавлена на страницу [[$2]].',
 
+    /* Закладка добавлена с цитатой */
+    'bookmarks-bookmark-cite-added' => 'Закладка $1 добавлена на страницу [[$2]] с цитатой:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* Закладка добавлена с цитатой (без текста оной) */
+    'bookmarks-bookmark-cite-added-simple' => 'Закладка $1 добавлена на страницу [[$2]] с цитатой.',
+
     /* Закладка уже присутствует */
     'bookmarks-bookmark-already-present' => 'Закладка $1 уже присутствует на странице [[$2]].',
 
     /* К закладке добавлена цитата */
     'bookmarks-cite-added' => 'К закладке [$1 $2] на страницу [[$4]] добавлена цитата:<div style="background-color: #E0E0E0">$3</div>',
+
+    /* К закладке добавлена цитата (без текста оной) */
+    'bookmarks-cite-added-simple' => 'К закладке [$1 $2] на страницу [[$3]] добавлена цитата.',
 
     /* Комментарий к правкам при добавлении цитат */
     'bookmarks-add-cite-summary' => 'Добавлена цитата к закладке $2',
