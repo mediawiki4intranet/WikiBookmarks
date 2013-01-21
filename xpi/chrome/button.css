@@ -1,0 +1,6 @@
+#wikibookmarks-button-1,
+#wrapper-wikibookmarks-button-1
+  { list-style-image: url("chrome://wikibookmarks/content/WikiBookmarks24.png"); }
+
+.popup-notification-icon[popupid="wikibookmarks-popup"]
+  { list-style-image: url("chrome://wikibookmarks/content/WikiBookmarks.png"); }

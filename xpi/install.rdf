@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description
+    about="urn:mozilla:install-manifest"
+
+    em:name="ВикиЗакладки"
+    em:description="Кнопка для добавления страницы в ВикиЗакладки"
+    em:creator="Виталий Филиппов"
+
+    em:id="wikibookmarks@yourcmc.ru"
+    em:version="0.9"
+    em:homepageURL="https://wiki.4intra.net/WikiBookmarks"
+
+    em:iconURL="chrome://wikibookmarks/content/WikiBookmarks36.png" >
+
+    <em:targetApplication><!-- Firefox -->
+      <Description
+        em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+        em:minVersion="4.0"
+        em:maxVersion="99" />
+    </em:targetApplication>
+
+    <em:file>
+      <Description
+        about="urn:mozilla:extension:wikibookmarks"
+        em:package="content/wikibookmarks/" />
+    </em:file>
+
+  </Description>
+
+</RDF>

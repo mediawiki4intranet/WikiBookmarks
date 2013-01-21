@@ -1,0 +1,6 @@
+content wikibookmarks chrome/
+style chrome://global/content/customizeToolbar.xul chrome://wikibookmarks/content/button.css
+#style chrome://browser/content/browser.xul chrome://wikibookmarks/content/popup.css
+
+# Firefox
+overlay chrome://browser/content/browser.xul chrome://wikibookmarks/content/button.xul

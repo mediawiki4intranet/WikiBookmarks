@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css"
+  href="chrome://wikibookmarks/content/button.css"?>
+
+<!DOCTYPE overlay >
+<overlay id="wikibookmarks-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript"
+  src="chrome://wikibookmarks/content/button.js"/>
+
+<!-- Firefox -->
+<toolbarpalette id="BrowserToolbarPalette">
+  <toolbarbutton id="wikibookmarks-button-1"/>
+  </toolbarpalette>
+
+<!-- button details -->
+<toolbarbutton id="wikibookmarks-button-1"
+  label="В ВикиЗакладки"
+  tooltiptext="Добавить страницу в ВикиЗакладки (User:Someone/Закладки)"
+  oncommand="WikiBookmarks[1]()"
+  class="toolbarbutton-1 chromeclass-toolbar-additional wikibookmarks"
+  />
+
+</overlay>
