@@ -62,7 +62,7 @@ class SpecialWikiBookmarks extends SpecialPage
     // Add bookmark/citation to text $content, return status
     static function addBookmark(&$content, $title, $url, $urltitle, $selection)
     {
-        global $wgParser, $egWikiBookmarksPageTemplate;
+        global $wgParser, $egWikiBookmarksPageTemplate, $wgUser;
         $selection = self::fixSelection($selection, $url);
         $comment = false;
         $bookmark = "[$url $urltitle]";
