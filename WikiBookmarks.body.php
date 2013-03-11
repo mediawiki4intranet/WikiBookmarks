@@ -60,7 +60,7 @@ class SpecialWikiBookmarks extends SpecialPage
     }
 
     // Add bookmark/citation to text $content, return status
-    static function addBookmark(&$content, $url, $urltitle, $selection)
+    static function addBookmark(&$content, $title, $url, $urltitle, $selection)
     {
         global $wgParser, $egWikiBookmarksPageTemplate;
         $selection = self::fixSelection($selection, $url);
@@ -269,7 +269,7 @@ class SpecialWikiBookmarks extends SpecialPage
                 $content = $article->getContent();
             }
             $comment = false;
-            $status = self::addBookmark($content, $url, $urltitle, $selection);
+            $status = self::addBookmark($content, $title, $url, $urltitle, $selection);
             if ($status != self::ALREADY_PRESENT)
             {
                 // Record article edit
