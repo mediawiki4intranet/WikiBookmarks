@@ -364,7 +364,6 @@ class SpecialWikiBookmarks extends SpecialPage
     public function execute($par)
     {
         global $wgOut, $wgParser, $wgUser, $egWikiBookmarksPageTemplate;
-        wfLoadExtensionMessages('WikiBookmarks');
         // Get call parameters
         $params = self::getRequestParams();
         if (!$params || !($title = Title::newFromText($params['page'])))
