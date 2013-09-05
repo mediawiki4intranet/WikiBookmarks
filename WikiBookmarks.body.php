@@ -355,7 +355,7 @@ class SpecialWikiBookmarks extends SpecialPage
             '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' .
             '<base target="_blank" /></head><body style="font-family: sans-serif; font-size: 80%; text-align: center">' .
             $msg .
-            '<p><a href="#" onclick="window.close()">'.wfMsg('bookmarks-close-window').
+            '<p><a href="#" onclick="window.close();return false;">'.wfMsg('bookmarks-close-window').
             '</a><script language="JavaScript">setTimeout("window.close()",5000);</script></p>' .
             '</body></html>';
     }
