@@ -77,6 +77,7 @@ const XMLHttpRequest = Components.Constructor("@mozilla.org/xmlextras/xmlhttpreq
 // Send the request
 var req = XMLHttpRequest();
 req.open("POST", action+'&format=json', true);
+req.channel.QueryInterface(Ci.nsIHttpChannelInternal).forceAllowThirdPartyCookie = true;
 req.onerror = wbPopupError;
 req.onload = function(e) {
     var jsonData = req.responseText;
