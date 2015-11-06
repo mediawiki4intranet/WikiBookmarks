@@ -178,7 +178,7 @@ class SpecialWikiBookmarks extends SpecialPage
         global $wgLang, $wgEnableParserCache;
         $wgEnableParserCache = false;
         $article = false;
-        $vars = array_merge($wgLang->getVariants(), array($wgLang->getFallbackLanguageCode()));
+        $vars = array_merge($wgLang->getVariants(), $wgLang->getFallbackLanguages());
         $htmlfile = dirname(__FILE__).'/WikiBookmarks.html';
         $htmlmtime = filemtime($htmlfile);
         foreach ($vars as $var)
