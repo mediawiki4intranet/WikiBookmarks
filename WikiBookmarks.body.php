@@ -355,15 +355,25 @@ class SpecialWikiBookmarks extends SpecialPage
     // Entry point
     public function execute($par)
     {
-        global $wgOut, $wgParser, $wgUser;
-        $wgOut->addModules('ext.wikibookmarks');
+        global $wgOut, $wgParser, $wgUser, $wgRequest;
         // Get call parameters
         $params = self::getRequestParams();
         if (!$params || !($title = Title::newFromText($params['page'])))
         {
-            // This is just a call to Special:WikiBookmarks (shows the help text)
-            self::showHelp();
-            return;
+            if ($wgRequest->getVal('js'))
+            {
+                print "<script>\n";
+                print file_get_contents(__DIR__.'/WikiBookmarks_adder.js');
+                print "</script>\n";
+                exit;
+            }
+            else
+            {
+                // This is just a call to Special:WikiBookmarks (shows the help text)
+                $wgOut->addModules('ext.wikibookmarks');
+                self::showHelp();
+                return;
+            }
         }
         // Edit article and print status
         $status = self::editArticle($title, $params['url'], $params['urltitle'], $params['selection']);
