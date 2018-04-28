@@ -1,40 +1,6 @@
-<!-- The following is Wikitext/HTML+JavaScript code for creating bookmarklet. It is localized using {{MediaWiki:msgid}} templates and substituted into Wikitext help files. -->
-<html><div style="display:inline-block"><label for="wb_page"><b></html>{{MediaWiki:wikibookmarks-page-editlabel}}<html></b></label><br/>
+<div style="display:inline-block"><label for="wb_page"><b>{{MediaWiki:wikibookmarks-page-editlabel}}</b></label><br/>
 <input type="text" id="wb_page" size="40" value="" /></div>
-<div style="display:inline-block"><label for="wb_text"><b></html>{{MediaWiki:wikibookmarks-text-editlabel}}<html></b></label><br/>
-<input type="text" id="wb_text" size="20" value="</html>{{MediaWiki:wikibookmarks-default-text}}<html>" /></div>
-<input type="button" value="</html>{{MediaWiki:wikibookmarks-make-link}}<html>" onclick="wb_make_link()" />
-<div id="wb_link_div" style="font-weight: bold"></div>
-<script language="JavaScript" type="text/javascript" src="http://</html>{{SERVERNAME}}{{SCRIPTPATH}}/extensions/WikiBookmarks/WikiBookmarks.js<html>"></script>
-<script language="JavaScript">
-function wb_make_link()
-{
- var pg = document.getElementById("wb_page").value;
- var t = document.getElementById("wb_text").value;
- if (!t)
-  t = "</html>{{MediaWiki:wikibookmarks-default-text}}<html>";
- if (pg == "")
- {
-  alert("</html>{{MediaWiki:wikibookmarks-page-empty}}<html>");
-  return;
- }
- var d = document.getElementById("wb_link_div");
- d.innerHTML = "";
- d.appendChild(document.createTextNode("</html>{{MediaWiki:wikibookmarks-drag-bookmarklet}}<html>"));
- d.appendChild(document.createElement('br'));
- d.appendChild(document.createTextNode("[[ "));
- var a = document.createElement('a');
- a.href = wb_bookmarklet(pg);
- a.innerHTML = t;
- d.appendChild(a);
- d.appendChild(document.createTextNode(" ]]"));
-}
-if (wgUserName)
-{
- var defp = "</html>{{ns:User}}<html>:" + wgUserName + "/</html>{{MediaWiki:wikibookmarks-bookmarks-page}}<html>";
- document.getElementById("wb_page").value = defp;
- document.getElementById("wb_default").innerHTML = "</html>{{MediaWiki:wikibookmarks-default}}<html>".replace("$1", defp);
-}
-</script>
-</html>
-<!-- End HTML+JavaScript -->
+<div style="display:inline-block"><label for="wb_text"><b>{{MediaWiki:wikibookmarks-text-editlabel}}</b></label><br/>
+<input type="text" id="wb_text" size="20" value="{{MediaWiki:wikibookmarks-default-text}}" /></div>
+<input type="button" value="{{MediaWiki:wikibookmarks-make-link}}" onclick="wb_make_link()" />
+<div id="wb_link_div" style="font-weight: bold"></div></html>

@@ -22,8 +22,10 @@
  * @author Vitaliy Filippov <vitalif@mail.ru>
  */
 
-if(!defined('MEDIAWIKI'))
+if (!defined('MEDIAWIKI'))
+{
     exit(1);
+}
 
 class SpecialWikiBookmarks extends SpecialPage
 {
@@ -62,7 +64,7 @@ class SpecialWikiBookmarks extends SpecialPage
     // Add bookmark/citation to text $content, return status
     static function addBookmark(&$content, $title, $url, $urltitle, $selection)
     {
-        global $wgParser, $egWikiBookmarksPageTemplate, $wgUser;
+        global $wgParser, $wgWikiBookmarksPageTemplate, $wgUser;
         $selection = self::fixSelection($selection, $url);
         $comment = false;
         $bookmark = "[$url $urltitle]";
@@ -147,9 +149,7 @@ class SpecialWikiBookmarks extends SpecialPage
                 $content = $wgParser->replaceSection($content, 1, $section1);
             else
             {
-                $tmpl = $egWikiBookmarksPageTemplate;
-                if (!$tmpl)
-                    $tmpl = 'WikiBookmarks';
+                $tmpl = $wgWikiBookmarksPageTemplate;
                 if (($tmpl = Title::newFromText($tmpl, NS_TEMPLATE)) &&
                     ($tmpl = new Article($tmpl)) &&
                     ($tmpl->getID()))
@@ -175,39 +175,31 @@ class SpecialWikiBookmarks extends SpecialPage
     // Preload help text onto help page so it can be searched, and display it
     static function showHelp()
     {
-        global $wgLang, $wgEnableParserCache;
-        $wgEnableParserCache = false;
-        $article = false;
+        global $wgOut, $wgLang;
         $vars = array_merge($wgLang->getVariants(), $wgLang->getFallbackLanguages());
-        $htmlfile = dirname(__FILE__).'/WikiBookmarks.html';
-        $htmlmtime = filemtime($htmlfile);
         foreach ($vars as $var)
         {
             $file = dirname(__FILE__).'/WikiBookmarks.'.$var.'.wikitext';
-            if (file_exists($file) &&
-                ($title = Title::newFromText(wfMsg('bookmarks-help-page'))) &&
-                ($article = new Article($title)))
+            $htmlfile = dirname(__FILE__).'/WikiBookmarks.html';
+            if (file_exists($file))
             {
-                $mtime = filemtime($file);
-                if ($htmlmtime > $mtime)
-                    $mtime = $htmlmtime;
-                if (!$article->exists() || $mtime > wfTimestamp(TS_UNIX, $article->getTimestamp()))
+                $text = file_get_contents($file);
+                $text = explode('__BOOKMARKLET_CREATION_CODE__', $text);
+                $htmlfile = file_get_contents($htmlfile);
+                foreach ([
+                    'wikibookmarks-page-editlabel', 'wikibookmarks-text-editlabel',
+                    'wikibookmarks-default-text', 'wikibookmarks-make-link'
+                ] as $k)
                 {
-                    $text = file_get_contents($file);
-                    $text = str_replace('__BOOKMARKLET_CREATION_CODE__', trim(file_get_contents($htmlfile)), $text);
-                    $r = new WikiBookmarksMessageReplacer($var);
-                    $text = $r->run($text);
-                    if (trim($text) != trim($article->getContent()))
-                    {
-                        $article->doEdit($text, 'WikiBookmarks: load help page', EDIT_FORCE_BOT);
-                        $article = new Article($title);
-                    }
+                    $htmlfile = str_replace("{{MediaWiki:$k}}", wfMessage($k)->text(), $htmlfile);
                 }
+                $wgOut->setPageTitle(wfMessage('bookmarks-help-page')->text());
+                $wgOut->addWikiText(trim($text[0]));
+                $wgOut->addHTML($htmlfile);
+                $wgOut->addWikiText(trim($text[1]));
                 break;
             }
         }
-        if ($article)
-            $article->view();
     }
 
     // Get call parameters
@@ -363,7 +355,8 @@ class SpecialWikiBookmarks extends SpecialPage
     // Entry point
     public function execute($par)
     {
-        global $wgOut, $wgParser, $wgUser, $egWikiBookmarksPageTemplate;
+        global $wgOut, $wgParser, $wgUser;
+        $wgOut->addModules('ext.wikibookmarks');
         // Get call parameters
         $params = self::getRequestParams();
         if (!$params || !($title = Title::newFromText($params['page'])))

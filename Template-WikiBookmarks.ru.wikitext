@@ -1,4 +1,8 @@
-'''[[Файл:Rss16.png|link={{#listfeedurl:Закладки-$TITLE}}]] На мои закладки можно [{{#listfeedurl:Закладки-$TITLE}} подписаться по RSS] — просто кликните по ссылке.''' <html><script language="JavaScript" type="text/javascript" src="http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/extensions/WikiBookmarks/WikiBookmarks.js"></script>Чтобы присоединиться к наполнению данной страницы, перетащите следующую ссылку на панель браузера: <a id="wb_join"></html>В {{PAGENAME}}<html></a>.<script language="JavaScript">document.getElementById("wb_join").href=wb_bookmarklet(wgPageName);</script></html>
+'''[[Файл:Rss16.png|link={{#listfeedurl:Закладки-$TITLE}}]] На мои закладки можно [{{#listfeedurl:Закладки-$TITLE}} подписаться по RSS] — просто кликните по ссылке.'''
+<html><script language="JavaScript" type="text/javascript" src="http://</html>{{SERVERNAME}}{{SCRIPTPATH}}<html>/extensions/WikiBookmarks/WikiBookmarks.js"></script>
+Чтобы присоединиться к наполнению данной страницы, перетащите следующую ссылку на панель браузера:
+<a id="wb_join"></html>В {{PAGENAME}}<html></a>
+<script language="JavaScript">document.getElementById("wb_join").href=wb_bookmarklet(wgPageName);</script></html>
 <listfeed name="Закладки-$TITLE" date="^\s*(?:\[[^\:]*\]\s*)?%d\s+%b,\s*%H:%M:%S:\s*" headingdate="%Y" />
 
 $CONTENT

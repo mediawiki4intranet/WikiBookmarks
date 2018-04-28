@@ -1,0 +1,41 @@
+{
+	"name": "WikiBookmarks",
+	"version": "0.9.9",
+	"author": "Vitaliy Filippov",
+	"url": "http://wiki.4intra.net/WikiBookmarks",
+	"description": "Simple extension for managing bookmarks using MediaWiki and JS bookmarklet",
+	"license-name": "GPL-2.0+",
+	"type": "other",
+	"ExtensionMessagesFiles": [
+		"WikiBookmarks.i18n.php"
+	],
+	"SpecialPages": {
+		"Bookmarks": "SpecialWikiBookmarks"
+	},
+	"config": {
+		"WikiBookmarksPageTemplate": "WikiBookmarks"
+	},
+	"ResourceModules": {
+		"ext.wikibookmarks": {
+			"scripts": "WikiBookmarks.js",
+			"dependencies": [
+				"mediawiki.language"
+			],
+			"messages": [
+				"wikibookmarks-default-text",
+				"wikibookmarks-page-empty",
+				"wikibookmarks-drag-bookmarklet",
+				"wikibookmarks-bookmarks-page",
+				"wikibookmarks-default"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "./",
+		"remoteExtPath": "WikiBookmarks"
+	},
+	"AutoloadClasses": {
+		"SpecialWikiBookmarks": "WikiBookmarks.body.php"
+	},
+	"manifest_version": 1
+}
