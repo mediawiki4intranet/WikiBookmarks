@@ -1,4 +1,4 @@
-function wb_bookmarklet(pg)
+window.wb_bookmarklet = function(pg)
 {
     var url = mw.config.get('wgServer')+mw.config.get('wgScriptPath');
     var bm = "javascript:void((function(){\
@@ -22,7 +22,7 @@ return;\
     return bm;
 }
 
-function wb_make_link()
+window.wb_make_link = function()
 {
     var pg = document.getElementById("wb_page").value;
     var t = document.getElementById("wb_text").value;
