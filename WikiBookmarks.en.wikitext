@@ -1,7 +1,7 @@
 '''WikiBookmarks''' is a '''MediaWiki''' extension which lets you to manage shared bookmark
 lists inside a Wiki article. The extension is written by [http://yourcmc.ru/wiki/User:VitaliyFilippov Vitaliy Filippov]
 and is distributed under the terms of GNU GPL license version 3 or later. Also, here is a
-[http://yourcmc.ru/wiki/WikiBookmarks_(MediaWiki) link to extension homepage].
+[http://wiki.4intra.net/WikiBookmarks link to extension homepage].
 
 You always can find a fresh version of the '''WikiBookmarks''' documentation on the [[Special:Bookmarks]] page.
 Actually, you've already found it :-).
